@@ -2,10 +2,9 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as argon from 'argon2';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto, SigninDto } from './dto';
-import { JwtPayload, Tokens } from './types';
+import { JwtPayload, Tokens, User } from './types';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
@@ -108,7 +107,7 @@ export class AuthService {
     });
   }
 
-  public async findUserById(userId: number): Promise<Partial<User>> {
+  public async findUserById(userId: number): Promise<User> {
     return await this.prisma.user.findUnique({
       where: { id: userId },
       select: {

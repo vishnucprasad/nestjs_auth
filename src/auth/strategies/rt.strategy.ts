@@ -3,9 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JwtPayload } from '../types';
+import { JwtPayload, UserWithRt } from '../types';
 import { AuthService } from '../auth.service';
-import { User } from '@prisma/client';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy, 'jwt-rt') {
@@ -23,7 +22,7 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-rt') {
   public async validate(
     req: Request,
     payload: JwtPayload,
-  ): Promise<Partial<User & { rt: string }>> {
+  ): Promise<UserWithRt> {
     const user = await this.authService.findUserById(payload.sub);
     const rt = req.get('authorization').replace('Bearer', '').trim();
 

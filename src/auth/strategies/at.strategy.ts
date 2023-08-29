@@ -4,7 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { JwtPayload } from '../types';
 import { AuthService } from '../auth.service';
-import { User } from '@prisma/client';
+import { User } from '../types';
 
 @Injectable()
 export class AtStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +18,7 @@ export class AtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  public async validate(payload: JwtPayload): Promise<Partial<User>> {
+  public async validate(payload: JwtPayload): Promise<User> {
     return await this.authService.findUserById(payload.sub);
   }
 }

@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -9,13 +10,18 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto, SigninDto } from './dto';
-import { Tokens } from './types';
+import { Tokens, User } from './types';
 import { RtGuard } from './guards';
 import { CurrentUser, Public } from './decorators';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get('user')
+  public getCurrentUser(@CurrentUser() user: User): User {
+    return user;
+  }
 
   @Public()
   @Post('local/signup')

@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto';
+import { CreateUserDto, SigninDto } from './dto';
 import { Tokens } from './types';
 
 @Controller('auth')
@@ -21,8 +21,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('local/signin')
-  public localSignin() {
-    return this.authService.localSignin();
+  public localSignin(@Body() dto: SigninDto): Promise<Tokens> {
+    return this.authService.localSignin(dto);
   }
 
   @Post('refresh')

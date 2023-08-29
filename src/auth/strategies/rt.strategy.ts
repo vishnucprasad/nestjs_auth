@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Payload } from '../types';
 
 @Injectable()
 export class RtStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +15,7 @@ export class RtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  public validate(req: Request, payload: any) {
+  public validate(req: Request, payload: Payload) {
     const refreshToken = req.get('authorization').replace('Bearer', '').trim();
 
     return {

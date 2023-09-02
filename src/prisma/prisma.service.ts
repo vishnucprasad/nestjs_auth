@@ -7,7 +7,7 @@ export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  constructor(private readonly config: ConfigService) {
+  constructor(protected readonly config: ConfigService) {
     super({
       datasources: {
         db: {
@@ -23,5 +23,9 @@ export class PrismaService
 
   public async onModuleDestroy() {
     await this.$disconnect();
+  }
+
+  public async cleanDb() {
+    return await this.$transaction([this.user.deleteMany()]);
   }
 }
